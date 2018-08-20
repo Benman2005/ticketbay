@@ -2,7 +2,7 @@ import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, getConnection} from
 import { Exclude } from 'class-transformer';
 import { MinLength, IsString, IsEmail } from 'class-validator';
 import * as bcrypt from 'bcrypt'
-// import { Player } from '../games/entities';
+
 
 @Entity()
 export default class User extends BaseEntity {
