@@ -41,20 +41,18 @@ export default class User extends BaseEntity {
 
 
   
-  async createUsersDb(){
-    await getConnection()
-    .createQueryBuilder()
-    .insert()
-    .into(User)
-    .values([
-        { firstName: "Johnny", lastName: "Quest", email:"johnny@quest.com", password:"$2a$10$JTIu0kXgStz.bxVAYw4zA.hi.2x3U3Cn6Ep9TQaBzZIr4oFZKUOo2" }, 
-        { firstName: "Lisa", lastName: "Lise", email: "lisa@lisa.com", password:"$2a$10$tvvp8zdFekeyGXyha1c1meUIPPpZPMnRildwxQpLSayKxdJoU5pEa"  }
-    ])
-    .execute();
-  }
+  // async createUsersDb(){
+  //   await getConnection()
+  //   .createQueryBuilder()
+  //   .insert()
+  //   .into(User)
+  //   .values([
+  //       { firstName: "Johnny", lastName: "Quest", email:"johnny@quest.com", password:"$2a$10$JTIu0kXgStz.bxVAYw4zA.hi.2x3U3Cn6Ep9TQaBzZIr4oFZKUOo2" }, 
+  //       { firstName: "Lisa", lastName: "Lise", email: "lisa@lisa.com", password:"$2a$10$tvvp8zdFekeyGXyha1c1meUIPPpZPMnRildwxQpLSayKxdJoU5pEa"  }
+  //   ])
+  //   .execute();
+  // }
 
-  // await data.createUsersDb()
-  //   console.log("please")
 
 
   // // this is a relation, read more about them here:

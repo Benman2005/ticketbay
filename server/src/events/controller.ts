@@ -4,8 +4,8 @@ import {
 } from 'routing-controllers'
 import User from '../users/entity'
 import {Event} from '../events/entities'
-// import { Game, Player, Board } from './entities'
-// import {IsBoard, isValidTransition, calculateWinner, finished} from './logic'
+import Ticket from '../tickets/entities'
+
 
 import {io} from '../index'
 
@@ -18,13 +18,15 @@ export default class EventController {
       return { events }
     }
 
-    // @Post('/events')
-    // async getevents(
-    //     @Body() data: Event
-    // ){
-    // await data.createEventsDb()   
-    // }
-    // }
+    @Get('/events/:id([0-9]+)')
+    getEvent(
+      @Param('id') id: number
+    ) {
+      return Event.findOneById(id)
+    }
+
+    // @Get('/events/:id/tickets')
+    // const user = await User.findOne({ where: { email } })
 
 //   @Authorized()
 //   @Post('/events')
@@ -46,8 +48,9 @@ export default class EventController {
         return event.save()
     }
 
+
     
-//     const game = await Event.findOneById(entity.id)
+//     const event = await Event.findOneById(entity.id)
 
 //     io.emit('action', {
 //       type: 'ADD_GAME',

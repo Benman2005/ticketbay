@@ -9,7 +9,7 @@ export default class UserController {
   async signup(
     @Body() data: User
   ) {
-    await data.createUsersDb()
+    // await data.createUsersDb()
 
     const {password, ...rest} = data
     const entity = User.create(rest)
@@ -25,14 +25,7 @@ export default class UserController {
     return user
   }
 
-  @Post('/users')
-    async makeusers(
-      @Body() data: User
-    ) {
-      await data.createUsersDb()
-  }
-
-  @Authorized()
+  // @Authorized()
   @Get('/users/:id([0-9]+)')
   getUser(
     @Param('id') id: number
@@ -40,7 +33,7 @@ export default class UserController {
     return User.findOneById(id)
   }
 
-  @Authorized()
+  // @Authorized()
   @Get('/users')
   allUsers() {
     return User.find()

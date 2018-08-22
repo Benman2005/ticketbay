@@ -4,7 +4,7 @@ import { NamingStrategyInterface } from 'typeorm/naming-strategy/NamingStrategyI
 import { snakeCase } from 'typeorm/util/StringUtils'
 import User from './users/entity'
 import {Event} from './events/entities'
-import {Ticket} from './tickets/entities'
+import Ticket from './tickets/entities'
 import {Comment} from './comments/entities'
 // import { Player, Game } from './games/entities'
 
