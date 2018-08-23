@@ -23,6 +23,11 @@ import { JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, 
         return Ticket.find({where: {eventid: id}})
     }
 
+    @Get('/users/:id([0-9]+)/tickets')
+    getTicketComments(@Param('id') id: number) {
+        return Ticket.find({where: {userid: id}})
+    }
+    
     @Get('/events/:id([0-9]+)')
     getEvent(
       @Param('id') id: number

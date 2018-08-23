@@ -20,8 +20,8 @@ export class Event extends BaseEntity {
     @Column()
     description: string
 
-    @Column()
-    photo: string
+    @Column({nullable:true})
+    photo?: string
 
 }
 

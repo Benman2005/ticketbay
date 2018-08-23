@@ -13,9 +13,14 @@ export default class CommentController {
     }
 
     @Get('/comments/:id([0-9]+)')
-    getEvent(
+    getComment(
     @Param('id') id: number
     ) {
     return Comment.findOneById(id)
+    }
+
+    @Get('/tickets/:id([0-9]+)/comments')
+    getTicketComments(@Param('id') id: number) {
+        return Comment.find({where: {ticketid: id}})
     }
 }
