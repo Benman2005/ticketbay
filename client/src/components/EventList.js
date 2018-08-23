@@ -28,13 +28,15 @@ class EventList extends PureComponent {
     }
     render(){
         
-        // const {games, users, authenticated, createGame} = this.props
+        const { users, authenticated} = this.props
 
         return (
-            <div><Card className="eventlist">
-            {this.props.events && this.props.events.map(event => this.renderEvent(event))}
-            </Card>
-            {this.props.authenticated && <EventForm />}
+            <div>
+                {authenticated && <EventForm />}
+
+                <Card className="eventlist">
+                {this.props.events && this.props.events.map(event => this.renderEvent(event))}
+                </Card>
             </div>
         )
     }

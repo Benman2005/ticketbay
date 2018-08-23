@@ -1,40 +1,39 @@
 import React, {PureComponent} from 'react'
-import {createEvent} from '../actions/events'
+import {editEvent} from '../actions/events'
 import { connect } from 'react-redux';
 import {userId} from '../jwt'
 // import './LoginForm.css'
 
 class EventForm extends PureComponent {
-    state = {}
+
+    state = {eventname: this.props.event.eventname, description: this.props.event.description, date: this.props.event.date, photo: this.props.event.photo}
     
 
 	handleSubmit = async (e) => {
-        e.preventDefault()
+        // e.preventDefault()
         const userId = this.props.userId
 
-          console.log(new Date(this.state.date).toISOString().replace(/\.[0-9]{3}/, ''))
-        const date = new Date(this.state.date).toISOString().replace(/\.[0-9]{3}/, '')
-        console.log(date)
-        console.log(userId)
-        console.log(this.state.date)
-        this.props.userId && this.props.createEvent(this.state.eventname, userId, this.state.description, this.state.photo, this.state.date)
+        this.props.userId && this.props.editEvent(this.props.eventId, this.state.eventname, userId, this.state.description, this.state.photo, this.state.date)
 	}
 
-	handleChange = (event) => {
-    const {name, value} = event.target
+	handleChange = (event) => { 
+        console.log(this.state) 
+        const {name, value} = event.target
+        console.log(event.target.defaultValue)
 
     this.setState({
       [name]: value
       
     })
     console.log(this.state)
-
   }
 
 	render() {
+        const {event} = this.props
+
 		return (
             <div>
-            <h3>Create Event</h3>
+            <h3>Edit Event</h3>
       <div className="login-form">
   			<form onSubmit={this.handleSubmit}>
   				<label>
@@ -51,7 +50,7 @@ class EventForm extends PureComponent {
   					} onChange={ this.handleChange } />
             </label>
             <label>
-                <input  type="datetime-local" name="date" value={this.state.date} onChange={ this.handleChange } />
+                <input  type="datetime-local" name="date" value={this.state.date || event.date} onChange={ this.handleChange } />
                
             </label>
             <label>
@@ -74,8 +73,10 @@ const mapStateToProps = function (state) {
 	return {
         // signup: state.signup
         userId: state.currentUser && userId(state.currentUser.jwt),
+        eventId:state.event.id,
+        event: state.event
 
 	}
 }
 
-export default connect(mapStateToProps, {createEvent})( EventForm)
+export default connect(mapStateToProps, { editEvent})( EventForm)

@@ -1,9 +1,10 @@
 import * as request from 'superagent'
 import {baseUrl} from '../constants'
-// import {isExpired} from '../jwt'
-// import {logout} from './users'
+import {isExpired} from '../jwt'
+import {logout} from './users'
 
 export const GET_TICKETS = "GET_TICKETS"
+export const ADD_TICKET = "ADD_TICKET"
 export const UPDATE_TICKETS = "UPDATE_TICKETS"
 export const UPDATE_TICKET = "UPDATE_TICKET"
 export const UPDATE_USER_TICKETS = "UPDATE_USER_TICKETS"
@@ -21,6 +22,11 @@ const updateTicket = ticket => ({
 const updateUserTickets = tickets => ({
     type: UPDATE_USER_TICKETS,
     payload: tickets
+})
+
+const addTicket = ticket => ({
+    type: ADD_TICKET,
+    payload: ticket
 })
 
 export const getEventTickets = (eventId) => (dispatch, getState) => {
@@ -43,3 +49,28 @@ export const getUserTickets = (id) => (dispatch) => {
         .then(result =>dispatch(updateUserTickets(result.body)))
         .catch(err => console.error(err))
 }
+
+export const createTicket = (eventid, price, description, userId, photo, created) => (dispatch, getState) => {
+    const state = getState()
+    const jwt = state.currentUser.jwt
+    if (isExpired(jwt)) return dispatch(logout())
+    
+    request
+      .post(`${baseUrl}/events/${eventid}/tickets`)
+      .set('Authorization', `Bearer ${jwt}`)
+      .send({eventid: eventid, price: price, description: description, userid: userId, photo: photo, created: created})
+      .then(result => addTicket(result.body))
+      .catch(err => console.error(err))
+  }
+
+  export const editTicket = (ticketid, price, description, photo ) => (dispatch, getState) => {
+    const state = getState()
+    const jwt = state.currentUser.jwt
+    if (isExpired(jwt)) return dispatch(logout())
+    request
+      .patch(`${baseUrl}/tickets/${ticketid}`)
+      .set('Authorization', `Bearer ${jwt}`)
+      .send({price: price, description: description, photo: photo})
+      .then(result => editTicket(result.body))
+      .catch(err => console.error(err))
+  }

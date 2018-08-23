@@ -10,6 +10,7 @@ import Paper from 'material-ui/Paper'
 import Comments from './Comments'
 import { Link } from 'react-router-dom'
 import './games/GamesList.css'
+import EditTicketForm from './EditTicketForm'
 
 class TicketDetails extends PureComponent {
 
@@ -24,7 +25,7 @@ class TicketDetails extends PureComponent {
   // }
 
   render() {
-    const {event, comments, ticket, userTickets, tickets, getEvent, getEventTickets, getUserTickets} = this.props
+    const {authenticated,userId, event, comments, ticket, userTickets, tickets, getEvent, getEventTickets, getUserTickets} = this.props
 
     if (ticket && event === null) getEvent(ticket.eventid)
     if(ticket && tickets === null) getEventTickets(ticket.eventid)
@@ -41,7 +42,7 @@ class TicketDetails extends PureComponent {
     if(ticket && ticket.price > avgprice) risk -= (Math.min(ticket.price/avgprice*100-100, 15))
     if(ticket && ticket.price > avgprice) console.log('percentage more expensive than avgprice ' + Math.min(ticket.price/avgprice*100-100, 15))
     console.log(`risk is now` + risk)
-   let time = 0
+    let time = 0
     if(ticket) time = new Date(ticket.created).getHours()
     console.log(time)
     if (ticket && time >= 9 && time <=17) risk -= 13
@@ -59,9 +60,17 @@ class TicketDetails extends PureComponent {
     console.log(risk)
     console.log(userTickets)
 
+    function author(){
+      if(Number(userId) === Number(ticket.userid)){
+          return true       
+      }
+      else return false
+    }
+
     return (
         
       <Paper className="outer-paper">
+        {authenticated && author() && <EditTicketForm ticket={ticket} event={event}/>}
         <div>
         We calculated that the risk of this ticket being a fraud is {Math.floor(Math.max(Math.min(risk, 98), 2))}%
         <img className="ticketphoto" src={ticket.photo} style={{width: '100%'}}></img> 

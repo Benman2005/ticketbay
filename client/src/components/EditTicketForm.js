@@ -1,23 +1,22 @@
 import React, {PureComponent} from 'react'
-import {createEvent} from '../actions/events'
+import {editTicket} from '../actions/tickets'
 import { connect } from 'react-redux';
 import {userId} from '../jwt'
 // import './LoginForm.css'
 
-class EventForm extends PureComponent {
-    state = {}
+class EditTicketForm extends PureComponent {
+    state = {price: this.props.ticket.price, description: this.props.ticket.description, photo: this.props.ticket.photo}
     
 
 	handleSubmit = async (e) => {
         e.preventDefault()
         const userId = this.props.userId
-
-          console.log(new Date(this.state.date).toISOString().replace(/\.[0-9]{3}/, ''))
-        const date = new Date(this.state.date).toISOString().replace(/\.[0-9]{3}/, '')
-        console.log(date)
+        const ticketid  = this.props.ticket.id
+        const { match, location, history } = this.props
         console.log(userId)
-        console.log(this.state.date)
-        this.props.userId && this.props.createEvent(this.state.eventname, userId, this.state.description, this.state.photo, this.state.date)
+        this.props.userId && this.props.editTicket(ticketid, this.state.price, this.state.description, this.state.photo)
+
+		// history.push("/tickets/"+ this.props.ticket.id);
 	}
 
 	handleChange = (event) => {
@@ -34,13 +33,13 @@ class EventForm extends PureComponent {
 	render() {
 		return (
             <div>
-            <h3>Create Event</h3>
+            <h3>Edit Ticket</h3>
       <div className="login-form">
   			<form onSubmit={this.handleSubmit}>
   				<label>
-            Event Name
-            <input type="text" name="eventname" value={
-  						this.state.eventname || ''
+            Ticket Price
+            <input type="number" name="price" value={
+  						this.state.price || ''
   					} onChange={ this.handleChange } />
           </label>
 
@@ -51,18 +50,12 @@ class EventForm extends PureComponent {
   					} onChange={ this.handleChange } />
             </label>
             <label>
-                <input  type="datetime-local" name="date" value={this.state.date} onChange={ this.handleChange } />
-               
-            </label>
-            <label>
-            Photo(URL)
-            <input type="text" name="photo" value={
-  						this.state.photo || ''
-  					} onChange={ this.handleChange } />
+            Photo URL (optional)
+                <input  type="text" name="photo" value={this.state.photo || ''} onChange={ this.handleChange } />
             </label>
             
 
-  				<button type="submit">Submit Event</button>
+  				<button type="submit" >Submit Ticket</button>
   			</form>
 		  </div>
           </div>
@@ -78,4 +71,4 @@ const mapStateToProps = function (state) {
 	}
 }
 
-export default connect(mapStateToProps, {createEvent})( EventForm)
+export default connect(mapStateToProps, {editTicket})( EditTicketForm)

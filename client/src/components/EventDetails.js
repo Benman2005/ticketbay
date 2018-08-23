@@ -6,6 +6,8 @@ import {getUsers} from '../actions/users'
 import {userId} from '../jwt'
 import Paper from 'material-ui/Paper'
 import Tickets from './Tickets'
+import EditEventForm from './EditEventForm'
+import TicketForm from './TicketForm'
 
 class EventDetails extends PureComponent {
 
@@ -18,21 +20,33 @@ class EventDetails extends PureComponent {
 
   render() {
 
-    const {event} = this.props
+    const {event, authenticated, userId} = this.props
 
     if (event === null ) return 'Loading...'
     if (!event) return 'Not found'
 
-const date = Date.parse(this.props.event.date)
+    function author(){
+      if(Number(userId) === Number(event.userid)){
+          return true       
+      }
+      else return false
+    }
 
     return (
 
       <Paper className="outer-paper">
-      <img className="eventphoto" src={event.photo} style={{width: '100%'}}></img>
+        {authenticated && author() && <EditEventForm event={event}/>}
+
+        {console.log(author())}
+        {console.log(userId)}
+        {console.log(event.userid)}
+
+        <img className="eventphoto" src={event.photo} style={{width: '100%'}}></img>
 
         <h1>{event.eventname}</h1>
         <h4>{new Date(event.date).toLocaleString()}</h4>
         <p>{event.description}</p>
+        {authenticated && <TicketForm event={event}/>}
         
         <Tickets />
 
