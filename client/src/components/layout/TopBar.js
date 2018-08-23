@@ -9,41 +9,60 @@ import {connect} from 'react-redux'
 import AccountIcon from 'material-ui-icons/AccountBox'
 
 const TopBar = (props) => {
-  const { location, history, user } = props
+  const { location, history, user, userhere } = props
 
   return (
     <AppBar position="absolute" style={{zIndex:10}}>
       <Toolbar>
         <Typography variant="title" color="inherit" style={{flex: 1}}>
-          Multiplayer Tic Tac Toe
+        TicketBay
         </Typography>
         {
           user &&
           <Button color="inherit"><AccountIcon /> { user.firstName }</Button>
         }
 
-        {
+        {/* {
           location.pathname.indexOf('signup') > 0 &&
           <Button color="inherit" onClick={() => history.push('/login')}>Login</Button>
-        }
-        {
+        } */}
+        {/* {
           location.pathname.indexOf('login') > 0 &&
           <Button color="inherit" onClick={() => history.push('/signup')}>Sign up</Button>
+        } */}
+        {
+          location.pathname.indexOf('events/') > 0 &&
+          <Button color="inherit" onClick={() => history.push('/events')}>All Events</Button>
         }
         {
-          location.pathname.indexOf('games/') > 0 &&
-          <Button color="inherit" onClick={() => history.push('/games')}>All Games</Button>
-        }
-        {
-          /games$/.test(location.pathname) &&
+          userhere &&
           <Button color="inherit" onClick={() => history.push('/logout')}>Log out</Button>
         }
+        {
+          !userhere &&
+          <Button color="inherit" onClick={() => history.push('/login')}>Log in</Button>
+        }
+        {
+          !userhere &&
+          <Button color="inherit" onClick={() => history.push('/signup')}>Sign up</Button>
+        }
+        {/* {
+          /events$/.test(location.pathname) &&
+          <Button color="black" onClick={() => history.push('/logout')}>Log out</Button>
+        } */}
+
       </Toolbar>
     </AppBar>
   )
 }
 
+// const mapStateToProps = state => ({
+//   user: state.currentUser && state.users &&
+//     state.users[userId(state.currentUser.jwt)]
+// })
+
 const mapStateToProps = state => ({
+  userhere: state.currentUser,
   user: state.currentUser && state.users &&
     state.users[userId(state.currentUser.jwt)]
 })

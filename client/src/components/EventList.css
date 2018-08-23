@@ -1,0 +1,19 @@
+.eventcard {
+    height: 50%;
+    width: 25%;
+    padding: 10px;
+    margin: 10px;
+}
+
+.eventcard img{
+    width: 200px;
+    height: auto;
+    size: cover;
+
+}
+
+.eventlist{
+    display: flex;
+    flex-flow: row wrap;
+}
+
