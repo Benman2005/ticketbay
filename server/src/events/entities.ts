@@ -1,6 +1,6 @@
 import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, Index, OneToMany, ManyToOne } from 'typeorm'
 import User from '../users/entity'
-import Ticket from '../tickets/entities'
+
 
 @Entity()
 export class Event extends BaseEntity {
@@ -14,8 +14,8 @@ export class Event extends BaseEntity {
     @Column()
     date: Date  
 
-    @Column('char')
-    userid: User["id"]
+    @Column('char', {length: 100})
+    readonly userid?: User["id"]
 
     @Column()
     description: string

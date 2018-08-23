@@ -16,11 +16,11 @@ export default class Ticket extends BaseEntity {
     @Column()
     description: string
     
-    @Column('char')
+    @Column('char', {length:100})
     userid: User["id"]
     
-    @Column()
-    photo: string
+    @Column({nullable:true})
+    photo?: string
 
     @Column()
     created?: Date

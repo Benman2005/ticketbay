@@ -35,5 +35,30 @@ import { JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, 
       return Event.findOneById(id)
     }
 
+    @Post('/events/:id([0-9]+)/tickets')
+    @HttpCode(201)
+    @Authorized()
+    async createTicket(
+     @Body() ticket: Ticket
+    ) {
+        return ticket.save()
+    }
+
+    @Patch('/tickets/:id([0-9]+)')
+    @HttpCode(200)
+    @Authorized()
+    async editTicket(
+    @Param('id') ticketid: number,
+     @Body() update: Ticket
+    ) {
+      const ticket = await Ticket.findOneById(ticketid)
+      if (!ticket) throw new NotFoundError(`ticket does not exist`)
+      ticket.description = update.description
+      ticket.price = update.price
+      ticket.photo = update.photo
+        await ticket.save()
+        return event
+    }
+
   }
   
