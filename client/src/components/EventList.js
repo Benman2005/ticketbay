@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react'
-
+import {userId} from '../jwt'
 import { connect } from 'react-redux'
 import {getEvents} from '../actions/events'
 import {getUsers} from '../actions/users'
@@ -27,12 +27,20 @@ class EventList extends PureComponent {
         )
     }
     render(){
-        
-        const { users, authenticated} = this.props
+        const { users, authenticated, userId} = this.props
+
+        const adminIds = [1, 2, 3]
+        function admin(){
+            if(adminIds.includes(Number(userId))){
+                console.log(userId)
+                return true       
+            }
+            else return false
+          }
 
         return (
             <div>
-                {authenticated && <EventForm />}
+                {authenticated && admin()&& <EventForm />}
 
                 <Card className="eventlist">
                 {this.props.events && this.props.events.map(event => this.renderEvent(event))}
@@ -44,6 +52,7 @@ class EventList extends PureComponent {
 
 const mapStateToProps = state => ({
     authenticated: state.currentUser !== null,
+    userId: state.currentUser && userId(state.currentUser.jwt),
     users: state.users === null ? null : state.users,
     events: state.events
   })

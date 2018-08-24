@@ -62,7 +62,6 @@ class TicketDetails extends PureComponent {
 
     console.log(`risk is now` + risk)
 
-console.log(endrisk)
     if (ticket === null ) return 'Loading...' 
     if (!ticket) return 'Not found'
     
