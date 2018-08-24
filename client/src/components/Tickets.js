@@ -46,7 +46,7 @@ class Tickets extends PureComponent {
         
         <Paper className="outer-paper">
             <div><Card className="ticketlist">
-            {this.props.tickets && this.props.tickets.map(ticket => this.renderTicket(ticket))}
+            {tickets && tickets.map(ticket => this.renderTicket(ticket))}
             </Card>
             </div>   
         </Paper>)
