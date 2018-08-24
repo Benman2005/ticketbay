@@ -15,7 +15,7 @@ class EditTicketForm extends PureComponent {
         const { match, location, history } = this.props
         console.log(userId)
         this.props.userId && this.props.editTicket(ticketid, this.state.price, this.state.description, this.state.photo)
-
+        window.location.reload(true)
 		// history.push("/tickets/"+ this.props.ticket.id);
 	}
 

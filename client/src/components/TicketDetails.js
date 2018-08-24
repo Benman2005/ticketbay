@@ -75,13 +75,22 @@ class TicketDetails extends PureComponent {
       }
       else return false
     }
+    const adminIds = [1, 2, 3]
+    function admin(){
+        if(adminIds.includes(Number(userId))){
+            console.log(userId)
+            return true       
+        }
+        else return false
+    }
 const id = Number(ticket.userid)
 console.log(this.props)
 
     return (
         
       <Paper className="outer-paper">
-        {authenticated && author() && <EditTicketForm ticket={ticket} event={event}/>}
+        {authenticated && (admin() || author() )&& <EditTicketForm ticket={ticket} event={event}/>}
+        {/* {authenticated && author() && <EditTicketForm ticket={ticket} event={event}/>} */}
         <div>
         { <h1>Ticket from - 
         {users && users[id].firstName.slice(0, users[id].firstName.indexOf('@')).toUpperCase()}</h1>}

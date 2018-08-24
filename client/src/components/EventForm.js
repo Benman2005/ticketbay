@@ -9,15 +9,16 @@ class EventForm extends PureComponent {
     
 
 	handleSubmit = async (e) => {
-        // e.preventDefault()
+        e.preventDefault()
         const userId = this.props.userId
-
           console.log(new Date(this.state.date).toISOString().replace(/\.[0-9]{3}/, ''))
         const date = new Date(this.state.date).toISOString().replace(/\.[0-9]{3}/, '')
         console.log(date)
         console.log(userId)
         console.log(this.state.date)
         this.props.userId && this.props.createEvent(this.state.eventname, userId, this.state.description, this.state.photo, this.state.date)
+        window.location.reload(true)
+
 	}
 
 	handleChange = (event) => {

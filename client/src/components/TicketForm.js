@@ -14,6 +14,8 @@ class EventForm extends PureComponent {
         const eventid  = this.props.event.id
         console.log(userId)
         this.props.userId && this.props.createTicket(eventid, this.state.price, this.state.description, userId, this.state.photo, new Date())
+        window.location.reload(true)
+
 	}
 
 	handleChange = (event) => {

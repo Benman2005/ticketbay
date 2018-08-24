@@ -10,10 +10,11 @@ class EventForm extends PureComponent {
     
 
 	handleSubmit = async (e) => {
-        // e.preventDefault()
+        e.preventDefault()
         const userId = this.props.userId
-
         this.props.userId && this.props.editEvent(this.props.eventId, this.state.eventname, userId, this.state.description, this.state.photo, this.state.date)
+        window.location.reload(true)
+
 	}
 
 	handleChange = (event) => { 

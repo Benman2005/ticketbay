@@ -31,28 +31,27 @@ class EventDetails extends PureComponent {
       }
       else return false
     }
-
+    const adminIds = [1, 2, 3]
+        function admin(){
+            if(adminIds.includes(Number(userId))){
+                console.log(userId)
+                return true       
+            }
+            else return false
+          }
     return (
 
       <Paper className="outer-paper">
-        {authenticated && author() && <EditEventForm event={event}/>}
-
-        {console.log(author())}
+        {authenticated && admin()&&  <EditEventForm event={event}/>}
         {console.log(userId)}
         {console.log(event.userid)}
-
         <img className="eventphoto" src={event.photo} style={{width: '100%'}}></img>
-
         <h1>{event.eventname}</h1>
         <h4>{new Date(event.date).toLocaleString()}</h4>
         <p>{event.description}</p>
-        {authenticated && <TicketForm event={event}/>}
-        
+        {authenticated && <TicketForm event={event}/>}   
         <Tickets />
-
       </Paper>)
-
-
   }
 }
 
