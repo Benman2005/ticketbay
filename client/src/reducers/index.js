@@ -9,10 +9,12 @@ import tickets from './tickets'
 import ticket from './ticket'
 import comments from './comments'
 import usertickets from './usertickets'
+import user from './user'
 
 export default {
   games,
   users,
+  user,
   login,
   currentUser,
   signup,

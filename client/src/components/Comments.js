@@ -36,7 +36,7 @@ class Comments extends PureComponent {
     return(
         <Card key={comment.id} className="commentcard">
         <CardContent>
-        {comment.blah}<br />
+        <h4>{comment.blah}</h4><br/>
         {/* {comment.ticketid} */}
         {/* {comment.userid} */}
         - {users[id].firstName !== undefined && users[id].firstName.slice(0, users[id].firstName.indexOf('@'))}
@@ -49,15 +49,15 @@ class Comments extends PureComponent {
     const {comments} = this.props
 
     return (
-        
-      <Paper className="outer-paper">
-      
-        <div><Card className="commentlist">
+
+        <div>
         Comments
+
+        <Card className="commentlist">
         {comments && comments.map(comment => this.renderComment(comment))}
         </Card>
         </div>   
-      </Paper>)
+)
   }
 }
 

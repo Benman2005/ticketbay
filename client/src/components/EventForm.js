@@ -9,7 +9,7 @@ class EventForm extends PureComponent {
     
 
 	handleSubmit = async (e) => {
-        e.preventDefault()
+        // e.preventDefault()
         const userId = this.props.userId
 
           console.log(new Date(this.state.date).toISOString().replace(/\.[0-9]{3}/, ''))
@@ -41,17 +41,17 @@ class EventForm extends PureComponent {
             Event Name
             <input type="text" name="eventname" value={
   						this.state.eventname || ''
-  					} onChange={ this.handleChange } />
+  					} onChange={ this.handleChange } required />
           </label>
 
             <label>
             Description
             <input maxLength="80" size="70" type="text" name="description" value={
   						this.state.description || ''
-  					} onChange={ this.handleChange } />
+  					} onChange={ this.handleChange } required/>
             </label>
             <label>
-                <input  type="datetime-local" name="date" value={this.state.date} onChange={ this.handleChange } />
+                <input  type="datetime-local" name="date" value={this.state.date} onChange={ this.handleChange } required/>
                
             </label>
             <label>

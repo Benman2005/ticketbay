@@ -37,14 +37,14 @@ class EventForm extends PureComponent {
             Ticket Price
             <input type="number" name="price" value={
   						this.state.price || ''
-  					} onChange={ this.handleChange } />
+  					} onChange={ this.handleChange } required/>
           </label>
 
             <label>
             Description
             <input maxLength="80" size="70" type="text" name="description" value={
   						this.state.description || ''
-  					} onChange={ this.handleChange } />
+  					} onChange={ this.handleChange } required/>
             </label>
             <label>
             Photo URL (optional)

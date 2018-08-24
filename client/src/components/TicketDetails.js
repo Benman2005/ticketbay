@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import {connect} from 'react-redux'
 import {getEvents, getEvent} from '../actions/events'
-import {getUsers} from '../actions/users'
+import {getUsers, getUser} from '../actions/users'
 import {getEventTickets, getUserTickets} from '../actions/tickets'
 import {getTicketComments} from '../actions/comments'
 import {getTicket} from '../actions/tickets'
@@ -18,18 +18,27 @@ class TicketDetails extends PureComponent {
     this.props.getTicket(this.props.match.params.id)
     if (this.props.users === null) this.props.getUsers()
   }
+  componentDidMount() {
+    if (this.props.users === null) this.props.getUsers()
+  this.props.getTicketComments(this.props.ticketid)
+  if(this.props.ticket && this.props.userTickets === null) this.props.getUserTickets(this.props.ticket.userid)
 
-  // componentDidMount(){
-  //   this.props.getEventTickets(this.props.ticket.eventid)
-
-  // }
+}
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.users === null) this.props.getUsers()
+    if (this.props.ticketid !== prevProps.ticketid) {
+        this.props.getTicketComments(this.props.ticketid)  
+    }
+  }
 
   render() {
-    const {authenticated,userId, event, comments, ticket, userTickets, tickets, getEvent, getEventTickets, getUserTickets} = this.props
+    const {authenticated,userId, event, comments, ticket, userTickets, tickets, getEvent, getEventTickets, getUserTickets, getUser, user, users} = this.props
 
+    if(ticket && user === null) getUser(Number(ticket.userid))
     if (ticket && event === null) getEvent(ticket.eventid)
     if(ticket && tickets === null) getEventTickets(ticket.eventid)
-    if(ticket && userTickets === null) getUserTickets(ticket.userid)
+    if(ticket && userTickets === null) getUserTickets(Number(ticket.userid))
     if(ticket && comments === null) getTicketComments(ticket.id)
     let avgprice = 0    
     if(tickets) avgprice = tickets.map(ticket => ticket.price).reduce((a,b) => a+b) / tickets.length
@@ -53,6 +62,7 @@ class TicketDetails extends PureComponent {
 
     console.log(`risk is now` + risk)
 
+console.log(endrisk)
     if (ticket === null ) return 'Loading...' 
     if (!ticket) return 'Not found'
     
@@ -66,12 +76,16 @@ class TicketDetails extends PureComponent {
       }
       else return false
     }
+const id = Number(ticket.userid)
+console.log(this.props)
 
     return (
         
       <Paper className="outer-paper">
         {authenticated && author() && <EditTicketForm ticket={ticket} event={event}/>}
         <div>
+        { <h1>Ticket from - 
+        {users && users[id].firstName.slice(0, users[id].firstName.indexOf('@')).toUpperCase()}</h1>}
         We calculated that the risk of this ticket being a fraud is {Math.floor(Math.max(Math.min(risk, 98), 2))}%
         <img className="ticketphoto" src={ticket.photo} style={{width: '100%'}}></img> 
         {event ? <h1>{event.eventname}</h1> : ""}
@@ -95,11 +109,12 @@ const mapStateToProps = (state, props) => ({
   event: state.event,
   users: state.users,
   userTickets: state.usertickets,
-  comments: state.comments
+  comments: state.comments,
+  user: state.user,
+  // risk: this.risk
 })
-
 const mapDispatchToProps = {
-  getEvents, getEvent, getUsers, getEventTickets, getTicket, getUserTickets, getTicketComments
+  getEvents, getEvent, getUsers, getUser, getEventTickets, getTicket, getUserTickets, getTicketComments
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TicketDetails)

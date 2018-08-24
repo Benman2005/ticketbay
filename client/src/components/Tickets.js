@@ -5,6 +5,7 @@ import {userId} from '../jwt'
 import Paper from 'material-ui/Paper'
 import Card, { CardContent } from 'material-ui/Card'
 import {getEventTickets} from '../actions/tickets'
+import {risk} from './TicketDetails'
 
 import './EventList.css'
 import { Link } from 'react-router-dom'
@@ -21,12 +22,11 @@ class Tickets extends PureComponent {
   }
 
   renderTicket= (ticket) =>{
-    // const {users, history} = this.props
+
     return(
         <Link to= {`/tickets/${ticket.id}`}>
-
-        <Card key={ticket.id} className="ticketcard"><img src={ticket.photo}></img> <CardContent>€{ticket.price}</CardContent> 
-        {ticket.eventid}
+        <Card key={ticket.id} className="ticketcard"><img src={ticket.photo}></img><CardContent>€{ticket.price}{this.props.risk}</CardContent> 
+        {/* {ticket.eventid} */}
             Click to see details
         </Card>
         </Link>

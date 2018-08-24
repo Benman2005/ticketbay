@@ -3,6 +3,7 @@ import {baseUrl} from '../constants'
 // import {isExpired} from '../jwt'
 
 export const ADD_USER = 'ADD_USER'
+export const GET_USER = 'GET_USER'
 export const UPDATE_USER = 'UPDATE_USER'
 export const UPDATE_USERS = 'UPDATE_USERS'
 
@@ -21,6 +22,11 @@ export const logout = () => ({
 const userLoginSuccess = (login) => ({
   type: USER_LOGIN_SUCCESS,
   payload: login
+})
+
+const getUserAction = user => ({
+  type: GET_USER,
+  payload: user
 })
 
 const userLoginFailed = (error) => ({
@@ -76,7 +82,7 @@ export const signup = (email, password) => (dispatch) =>
 export const getUser = (id) => (dispatch) => {
   request
   .get(`${baseUrl}/users/${id}`)
-  .then(result => dispatch(updateUsers(result.body)))
+  .then(result => dispatch(getUserAction(result.body)))
   .catch(err => console.error(err))
 }
 
