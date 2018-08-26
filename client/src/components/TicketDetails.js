@@ -2,9 +2,8 @@ import React, {PureComponent} from 'react'
 import {connect} from 'react-redux'
 import {getEvents, getEvent} from '../actions/events'
 import {getUsers, getUser} from '../actions/users'
-import {getEventTickets, getUserTickets} from '../actions/tickets'
 import {getTicketComments} from '../actions/comments'
-import {getTicket} from '../actions/tickets'
+import {getTicket, getEventTickets, getUserTickets} from '../actions/tickets'
 import {userId} from '../jwt'
 import Paper from 'material-ui/Paper'
 import Comments from './Comments'
@@ -14,37 +13,47 @@ import EditTicketForm from './EditTicketForm'
 import CommentForm from './CommentForm'
 
 class TicketDetails extends PureComponent {
+  state= {ticket:{}, event:{}, usertickets:[]}
+  
   calculateRisk() {
-    const {comments, ticket, userTickets, tickets} = this.props
+    const {comments, ticket, usertickets, tickets} = this.props
     let avgprice = 0    
-    if(tickets) avgprice = tickets.map(ticket => ticket.price).reduce((a,b) => a+b) / tickets.length
     let risk = 0
-    if(userTickets && userTickets.length < 2) risk += 4
-    if(ticket && ticket.price < avgprice ) risk += (100 - ticket.price/avgprice*100)
-    if(ticket && ticket.price > avgprice) risk -= (Math.min(ticket.price/avgprice*100-100, 15))
     let time = 0
-    if(ticket) time = new Date(ticket.created).getHours()
-    if (ticket && time >= 9 && time <=17) risk -= 13
+    if(tickets) avgprice = tickets.map(ticket => ticket.price).reduce((a,b) => a+b) / tickets.length
+    console.log(avgprice, '   ' + risk)
+    if(usertickets && usertickets.length < 2) risk += 4
+    console.log("userticketslength"+ risk)
+    if(ticket.price < avgprice ) risk += (100 - ticket.price/avgprice*100)
+    if(ticket.price > avgprice) risk -= (Math.min(ticket.price/avgprice*100-100, 15))
+    console.log("avgpricecheck"+ risk)
+    time = new Date(ticket.created).getHours()
+    console.log(time)
+    if (time >= 9 && time <=17) risk -= 13
     else risk += 13
+    console.log("officetimecheck"+ risk)
     if(comments && comments.length >3) risk +=6
+    console.log("commentslength"+ risk)
     return risk
   }
  
   componentDidMount() {
-    const {users, getUsers, getTicket, getTicketComments} = this.props
+    const {users, ticket, event, getUsers, getTicket, getTicketComments} = this.props
     getTicket(this.props.match.params.id)
     getTicketComments(this.props.match.params.id)
     if (users === null) getUsers()
   }
-  componentDidUpdate() {
-    const {ticket, event, getEvent, userTickets} = this.props
-    if(ticket && userTickets === null) this.props.getUserTickets(Number(ticket.userid))
-    if (ticket && event === null) getEvent(ticket.eventid)
+  componentDidUpdate(prevProps) {
+    const {ticket, tickets, event, getEvent, getEventTickets,getUserTickets, usertickets} = this.props
+    ticket && !event && getEvent(ticket.eventid)
+    // ticket && prevProps.ticket && ticket.eventid !== prevProps.ticket.eventid && getEvent(ticket.eventid)
+    ticket && !tickets && getEventTickets(ticket.eventid)
+    ticket && !usertickets && getUserTickets(Number(ticket.userid))
   }
   
   render() {
-    const {authenticated,userId, event, comments, ticket, userTickets, tickets, getEvent, getEventTickets, getUserTickets, users} = this.props
-    // const user = users[ticket.userid]
+    const {authenticated,userId, event, comments, ticket, usertickets, tickets, getEvent, getEventTickets, getUserTickets, users} = this.props
+   
 
     if (ticket === null ) return 'Loading...' 
     if (!ticket) return 'Not found'
@@ -94,14 +103,14 @@ const mapStateToProps = (state, props) => ({
   tickets:state.tickets,
   event: state.event,
   users: state.users,
-  userTickets: state.usertickets,
+  usertickets: state.usertickets,
   comments: state.comments,
   user: state.user,
   // risk: this.calculateRisk() 
 
 })
 const mapDispatchToProps = {
-  getEvents, getEvent, getUsers, getUser, getEventTickets, getTicket, getUserTickets, getTicketComments
+  getEvents, getEvent, getUsers, getUser, getEventTickets, getTicket,getEventTickets, getUserTickets, getTicketComments
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TicketDetails)

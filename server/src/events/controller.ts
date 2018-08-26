@@ -48,17 +48,16 @@ export default class EventController {
         return event
     }
 
-    // @Delete('/events/:id([0-9]+)')
-    // @HttpCode(201)
-    // // @Authorized()
-    // async deleteEvent(
-    // @Param('id') eventid: number,
-    //  @Body() event: Event
-    // ) {
-    //   const entity = await Event.findOneById(eventid)
-    //   if (!entity) throw new NotFoundError(`Event does not exist`)
-    //   await entity.remove()
-    //   return entity 
-    // }
+    @Delete('/events/:id([0-9]+)')
+    @HttpCode(201)
+    @HttpCode(202)
+    @Authorized()
+    async deleteEvent(@Param('id') eventid: number) {
+      return Event.removeById(eventid)
+      // const entity = await Event.findOneById(eventid)
+      // if (!entity) throw new NotFoundError(`Event does not exist`)
+      // await entity.remove()
+      // return entity 
+    }
 
 }

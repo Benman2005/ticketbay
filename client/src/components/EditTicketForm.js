@@ -22,35 +22,31 @@ class EditTicketForm extends PureComponent {
 
 	render() {
 		return (
-            <div>
-            <h3>Edit Ticket</h3>
+      <div>
+      <h3>Edit Ticket</h3>
       <div className="login-form">
-  			<form onSubmit={this.handleSubmit}>
-  				<label>
-            Ticket Price
-            <input type="number" name="price" value={
-  						this.state.price || ''
-  					} onChange={ this.handleChange } />
-          </label>
-
-            <label>
-            Description
-            <input maxLength="80" type="text" name="description" value={
-  						this.state.description || ''
-  					} onChange={ this.handleChange } />
-            </label>
-            <label>
-            Photo URL (optional)
-                <input  type="text" name="photo" value={this.state.photo || ''} onChange={ this.handleChange } />
-            </label>
-            
-
-  				<button type="submit" >Submit Ticket</button>
-  			</form>
-		  </div>
-          </div>
-        )
-
+      <form onSubmit={this.handleSubmit}>
+      <label>
+      Ticket Price
+      <input type="number" name="price" value={
+        this.state.price || ''
+      } onChange={ this.handleChange } />
+      </label>
+      <label>
+      Description
+      <input maxLength="80" type="text" name="description" value={
+        this.state.description || ''
+      } onChange={ this.handleChange } />
+      </label>
+      <label>
+      Photo URL (optional)
+          <input  type="text" name="photo" value={this.state.photo || ''} onChange={ this.handleChange } />
+      </label>
+      <button type="submit" >Submit Ticket</button>
+      </form>
+      </div>
+      </div>
+    )
 	}
 }
 const mapStateToProps = function (state) {

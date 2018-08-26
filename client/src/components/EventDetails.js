@@ -14,7 +14,6 @@ class EventDetails extends PureComponent {
 
   componentDidMount() {
       this.props.getEvent(this.props.match.params.id)
-      // this.props.getUsers()
   }
   render() {
     const {event, authenticated, userId} = this.props
