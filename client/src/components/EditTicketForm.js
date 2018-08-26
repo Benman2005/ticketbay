@@ -7,27 +7,17 @@ import {userId} from '../jwt'
 class EditTicketForm extends PureComponent {
     state = {price: this.props.ticket.price, description: this.props.ticket.description, photo: this.props.ticket.photo}
     
-
 	handleSubmit = async (e) => {
         e.preventDefault()
-        const userId = this.props.userId
-        const ticketid  = this.props.ticket.id
-        const { match, location, history } = this.props
-        console.log(userId)
-        this.props.userId && this.props.editTicket(ticketid, this.state.price, this.state.description, this.state.photo)
-        window.location.reload(true)
-		// history.push("/tickets/"+ this.props.ticket.id);
+        const {userId, ticket, editTicket} = this.props
+        userId && editTicket(ticket.id, this.state.price, this.state.description, this.state.photo)
 	}
 
 	handleChange = (event) => {
     const {name, value} = event.target
-
     this.setState({
       [name]: value
-      
     })
-    console.log(this.state)
-
   }
 
 	render() {
@@ -45,7 +35,7 @@ class EditTicketForm extends PureComponent {
 
             <label>
             Description
-            <input maxLength="80" size="70" type="text" name="description" value={
+            <input maxLength="80" type="text" name="description" value={
   						this.state.description || ''
   					} onChange={ this.handleChange } />
             </label>

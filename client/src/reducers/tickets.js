@@ -1,4 +1,4 @@
-import {UPDATE_TICKETS} from '../actions/tickets'
+import {UPDATE_TICKETS, ADD_TICKET} from '../actions/tickets'
 
 export default (state = null, {type, payload}) => {
   switch (type) {
@@ -6,6 +6,8 @@ export default (state = null, {type, payload}) => {
     case UPDATE_TICKETS:
       return payload
 
+    case ADD_TICKET:
+      return [...state, payload]
 
     default:
       return state

@@ -1,9 +1,12 @@
 .ticketlist {
     display: flex;
     flex-direction: column;
+    padding:40px;
+    max-width:400px;
+    margin: auto;
 }
 
 .ticketcard {
-    padding: 40px;
-    margin: 25px;
+    padding: 5px;
+    margin: 5px !important;
 }

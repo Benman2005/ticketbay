@@ -4,28 +4,30 @@ import { connect } from 'react-redux'
 import {getEvents} from '../actions/events'
 import {getUsers} from '../actions/users'
 import Card, { CardContent } from 'material-ui/Card'
-import Button from 'material-ui/Button'
 import EventForm from './EventForm'
+import { Link } from 'react-router-dom'
 
 import './EventList.css'
-
-
 
 class EventList extends PureComponent {
     componentDidMount(){
             this.props.getEvents()
             if (this.props.users === null) this.props.getUsers()
     }
+
     renderEvent= (event) =>{
-        const {history} = this.props
         if (new Date(event.date) < new Date()) return
         else
         return(
-            <Card key={event.id} className="eventcard"><img src={event.photo}></img> <CardContent>{event.eventname}</CardContent> 
-            <Button size="small" onClick={() => history.push(`/events/${event.id}`)}>See details</Button>
-            </Card>
-        )
+            <Card key={event.id} className="eventcard">
+            <Link to= {`/events/${event.id}`}>
+            <CardContent>
+            <img src={event.photo}></img> {event.eventname}<br/>
+            </CardContent> 
+            </Link>
+            </Card>)
     }
+    
     render(){
         const { users, authenticated, userId} = this.props
 
@@ -40,10 +42,10 @@ class EventList extends PureComponent {
 
         return (
             <div>
-                {authenticated && admin()&& <EventForm />}
+                {authenticated && admin()&& <Card className="create-edit"><EventForm /></Card>}
 
                 <Card className="eventlist">
-                {this.props.events && this.props.events.map(event => this.renderEvent(event))}
+                {this.props.events && this.props.events.sort((a, b)=> {return b.id-a.id}).map(event => this.renderEvent(event))}
                 </Card>
             </div>
         )

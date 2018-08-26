@@ -1,14 +1,16 @@
 .eventcard {
-    height: 50%;
-    width: 25%;
+    /* height: 100px; */
+    width: 30%;
     padding: 10px;
     margin: 10px;
 }
 
 .eventcard img{
     width: 100%;
-    height: auto;
-    size: cover;
+    height: 50%;
+    /* max-height: 50%; */
+    object-fit: cover;
+    /* size: cover; */
 
 }
 

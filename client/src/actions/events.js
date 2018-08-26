@@ -3,9 +3,9 @@ import {baseUrl} from '../constants'
 import {logout} from './users'
 import {isExpired} from '../jwt'
 
-
 export const UPDATE_EVENTS = "UPDATE_EVENTS"
 export const UPDATE_EVENT = 'UPDATE_EVENT'
+
 export const ADD_EVENT = 'ADD_EVENT'
 
 const updateEvents = events => ({
@@ -37,16 +37,19 @@ export const getEvent = (eventId) => (dispatch) => {
     .catch(err => console.error(err))
 }
 
-export const createEvent = (name, userId, description, photo, date, ) => (dispatch, getState) => {
+export const createEvent = (eventname, userId, description, photo, date, ) => (dispatch, getState) => {
+  // console.log(eventname, userid: userId, description, photo, date)
   const state = getState()
   const jwt = state.currentUser.jwt
   if (isExpired(jwt)) return dispatch(logout())
-  
   request
     .post(`${baseUrl}/events`)
     .set('Authorization', `Bearer ${jwt}`)
-    .send({eventname: name, userid: userId, description: description, photo: photo, date: date})
-    .then(result => addEvent(result.body))
+    .send({eventname, userid: userId, description, photo, date})
+    .then(result => {
+      // JE MOET WEL DISPATCHEN KUTJE
+    dispatch(addEvent(result.body))
+  })
     .catch(err => console.error(err))
 }
 export const editEvent = (eventId, name, userId, description, photo, date, ) => (dispatch, getState) => {
@@ -57,6 +60,6 @@ export const editEvent = (eventId, name, userId, description, photo, date, ) => 
     .patch(`${baseUrl}/events/${eventId}`)
     .set('Authorization', `Bearer ${jwt}`)
     .send({eventname: name, userid: userId, description: description, photo: photo, date: date})
-    .then(result => editEvent(result.body))
+    .then(result => dispatch(updateEvent(result.body)))
     .catch(err => console.error(err))
 }

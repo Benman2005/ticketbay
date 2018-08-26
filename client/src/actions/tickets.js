@@ -47,7 +47,8 @@ export const getUserTickets = (id) => (dispatch) => {
     request
         .get(`${baseUrl}/users/${id}/tickets`)
         .then(result =>dispatch(updateUserTickets(result.body)))
-        .catch(err => console.error(err))
+        .then(result => console.log(result))
+        // .catch(err => console.error(err))
 }
 
 export const createTicket = (eventid, price, description, userId, photo, created) => (dispatch, getState) => {
@@ -59,18 +60,18 @@ export const createTicket = (eventid, price, description, userId, photo, created
       .post(`${baseUrl}/events/${eventid}/tickets`)
       .set('Authorization', `Bearer ${jwt}`)
       .send({eventid: eventid, price: price, description: description, userid: userId, photo: photo, created: created})
-      .then(result => addTicket(result.body))
+      .then(result => dispatch(addTicket(result.body)))
       .catch(err => console.error(err))
-  }
+}
 
-  export const editTicket = (ticketid, price, description, photo ) => (dispatch, getState) => {
+export const editTicket = (ticketid, price, description, photo ) => (dispatch, getState) => {
     const state = getState()
     const jwt = state.currentUser.jwt
     if (isExpired(jwt)) return dispatch(logout())
     request
-      .patch(`${baseUrl}/tickets/${ticketid}`)
-      .set('Authorization', `Bearer ${jwt}`)
-      .send({price: price, description: description, photo: photo})
-      .then(result => editTicket(result.body))
-      .catch(err => console.error(err))
-  }
+        .patch(`${baseUrl}/tickets/${ticketid}`)
+        .set('Authorization', `Bearer ${jwt}`)
+        .send({price, description, photo})
+        .then(result => dispatch(updateTicket(result.body)))
+        .catch(err => console.error(err))
+}

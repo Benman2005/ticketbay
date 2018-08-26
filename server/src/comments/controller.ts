@@ -1,5 +1,4 @@
 import { JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, Body, Patch } from 'routing-controllers'
-import User from '../users/entity'
 import {Comment} from '../comments/entities'
 
 
@@ -23,4 +22,14 @@ export default class CommentController {
     getTicketComments(@Param('id') id: number) {
         return Comment.find({where: {ticketid: id}})
     }
+
+    @Post('/tickets/:id([0-9]+)/comments')
+    @HttpCode(201)
+    @Authorized()
+    async createComment(
+     @Body() comment: Comment
+    ) {
+        return comment.save()
+    }
+
 }

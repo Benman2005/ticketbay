@@ -7,3 +7,36 @@ body {
 img {
   width:100%;
 }
+
+a {
+  color: black !important;
+  text-decoration: none;
+}
+
+a :hover {
+  color: hotpink;
+}
+
+.create-edit{
+  padding:10px;
+  margin-bottom: 10px;
+}
+
+.create-edit input{
+  /* height: 20px; */
+  margin-left: 1em;
+  position:right;
+}
+
+label{
+  text-align: left;
+}
+
+button :hover{
+  font-size: 15px;
+}
+
+button[type=submit] :hover{
+  font-size:30px;
+
+}

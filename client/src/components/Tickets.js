@@ -2,18 +2,17 @@ import React, {PureComponent} from 'react'
 import {connect} from 'react-redux'
 import {getUsers} from '../actions/users'
 import {userId} from '../jwt'
-import Paper from 'material-ui/Paper'
 import Card, { CardContent } from 'material-ui/Card'
 import {getEventTickets} from '../actions/tickets'
-import {risk} from './TicketDetails'
-
-import './EventList.css'
 import { Link } from 'react-router-dom'
+import './Tickets.css'
+
 
 class Tickets extends PureComponent {
 
   componentDidMount() {
-    this.props.getEventTickets(this.props.event.id)  
+    this.props.getEventTickets(this.props.event.id)
+    this.props.getUsers()  
   }
   componentDidUpdate(prevProps) {
     if (this.props.event.id !== prevProps.event.id) {
@@ -22,34 +21,33 @@ class Tickets extends PureComponent {
   }
 
   renderTicket= (ticket) =>{
-
+    const id = Number(ticket.userid)
+    const {users} = this.props
+    if(users === null)return 'loading users'
     return(
-        <Link to= {`/tickets/${ticket.id}`}>
-        <Card key={ticket.id} className="ticketcard"><img src={ticket.photo}></img><CardContent>€{ticket.price}{this.props.risk}</CardContent> 
-        {/* {ticket.eventid} */}
-            Click to see details
-        </Card>
-        </Link>
+      <Link to= {`/tickets/${ticket.id}`}>
+      <Card key={ticket.id} className="ticketcard">
+        <CardContent className="ticketss">
+        <img src={ticket.photo}></img>
+        Price: €{ticket.price}<br />
+        Seller: {users && users[id].firstName.slice(0, users[id].firstName.indexOf('@')).toLowerCase()}
+        </CardContent> 
+      </Card>
+      </Link>
     )
-}
+  }
 
   render() {
-    // console.log(this.props.event.id)
-
-
     const { tickets} = this.props
 
-    if (tickets === null) return 'Loading...'
-    if (!tickets) return 'Tickets Not found'
-
     return (
-        
-        <Paper className="outer-paper">
-            <div><Card className="ticketlist">
-            {tickets && tickets.map(ticket => this.renderTicket(ticket))}
-            </Card>
-            </div>   
-        </Paper>)
+      <div>
+      <h1>Tickets:</h1>
+      <Card className="ticketlist">
+      {tickets && tickets.sort((a, b) => {return b.id-a.id}).map(ticket => this.renderTicket(ticket))}
+      </Card>
+      </div>   
+    )
   }
 }
 
@@ -57,11 +55,8 @@ const mapStateToProps = (state, props) => ({
   authenticated: state.currentUser !== null,
   userId: state.currentUser && userId(state.currentUser.jwt),
   event: state.event && state.event,
-//   event: state.events && state.events[props.match.params.id],
   users: state.users,
-  tickets: state.tickets,
-//   ticket: state.tickets && state.tickets[0]
-  
+  tickets: state.tickets,  
 })
 
 const mapDispatchToProps = {

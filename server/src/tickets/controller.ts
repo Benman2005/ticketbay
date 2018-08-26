@@ -1,6 +1,5 @@
 import { JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, 
     Body, Patch } from 'routing-controllers'
-  import User from '../users/entity'
   import {Event} from '../events/entities'
   import Ticket from './entities'
   
@@ -57,7 +56,7 @@ import { JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, 
       ticket.price = update.price
       ticket.photo = update.photo
         await ticket.save()
-        return event
+        return ticket
     }
 
   }

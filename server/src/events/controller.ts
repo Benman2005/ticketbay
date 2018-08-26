@@ -1,6 +1,6 @@
 import { 
   JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, 
-  Body, Patch, Put 
+  Body, Patch, Put, Delete 
 } from 'routing-controllers'
 import {Event} from '../events/entities'
 
@@ -24,7 +24,11 @@ export default class EventController {
     async createEvent(
      @Body() event: Event
     ) {
-        return event.save()
+      console.log (event)
+      const entity = await event.save()
+      console.log("now here")
+      console.log(entity)
+        return entity
     }
 
     @Patch('/events/:id([0-9]+)')
@@ -43,4 +47,18 @@ export default class EventController {
         await event.save()
         return event
     }
+
+    // @Delete('/events/:id([0-9]+)')
+    // @HttpCode(201)
+    // // @Authorized()
+    // async deleteEvent(
+    // @Param('id') eventid: number,
+    //  @Body() event: Event
+    // ) {
+    //   const entity = await Event.findOneById(eventid)
+    //   if (!entity) throw new NotFoundError(`Event does not exist`)
+    //   await entity.remove()
+    //   return entity 
+    // }
+
 }

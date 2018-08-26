@@ -11,25 +11,14 @@ class EventForm extends PureComponent {
 	handleSubmit = async (e) => {
         e.preventDefault()
         const userId = this.props.userId
-          console.log(new Date(this.state.date).toISOString().replace(/\.[0-9]{3}/, ''))
-        const date = new Date(this.state.date).toISOString().replace(/\.[0-9]{3}/, '')
-        console.log(date)
-        console.log(userId)
-        console.log(this.state.date)
         this.props.userId && this.props.createEvent(this.state.eventname, userId, this.state.description, this.state.photo, this.state.date)
-        window.location.reload(true)
-
 	}
 
 	handleChange = (event) => {
     const {name, value} = event.target
-
     this.setState({
-      [name]: value
-      
+      [name]: value     
     })
-    console.log(this.state)
-
   }
 
 	render() {
@@ -47,11 +36,12 @@ class EventForm extends PureComponent {
 
             <label>
             Description
-            <input maxLength="80" size="70" type="text" name="description" value={
+            <input maxLength="80" type="text" name="description" value={
   						this.state.description || ''
   					} onChange={ this.handleChange } required/>
             </label>
             <label>
+              Date
                 <input  type="datetime-local" name="date" value={this.state.date} onChange={ this.handleChange } required/>
                
             </label>

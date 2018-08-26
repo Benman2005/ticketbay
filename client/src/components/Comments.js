@@ -14,20 +14,18 @@ import {getTicketComments} from '../actions/comments'
 class Comments extends PureComponent {
 
   componentWillMount(){
-    this.props.getUsers()
+    // this.props.getUsers()
     // this.props.getTicketComments(this.props.ticketid)
   }
   componentDidMount() {
-      if (this.props.users === null) this.props.getUsers()
+      // if (this.props.users === null) this.props.getUsers()
     this.props.getTicketComments(this.props.ticketid)
   }
 
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
-    if (this.props.users === null) this.props.getUsers()
-    if (this.props.ticketid !== prevProps.ticketid) {
-        this.props.getTicketComments(this.props.ticketid)  
-    }
+    // if (this.props.users === null) this.props.getUsers()
+    // if (this.props.ticketid !== prevProps.ticketid) this.props.getTicketComments(this.props.ticketid)
   }
 
   renderComment= (comment) =>{
@@ -37,9 +35,8 @@ class Comments extends PureComponent {
         <Card key={comment.id} className="commentcard">
         <CardContent>
         <h4>{comment.blah}</h4><br/>
-        {/* {comment.ticketid} */}
-        {/* {comment.userid} */}
-        - {users[id].firstName !== undefined && users[id].firstName.slice(0, users[id].firstName.indexOf('@'))}
+
+        - {users !== undefined && users !== null && users[id].firstName.slice(0, users[id].firstName.indexOf('@'))}
         </CardContent> 
         </Card>
     )
@@ -52,9 +49,9 @@ class Comments extends PureComponent {
 
         <div>
         Comments
-
         <Card className="commentlist">
-        {comments && comments.map(comment => this.renderComment(comment))}
+        {comments && comments.sort((a, b) => {
+          return b.id-a.id}).map(comment => this.renderComment(comment))}
         </Card>
         </div>   
 )
