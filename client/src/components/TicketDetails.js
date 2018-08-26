@@ -13,7 +13,6 @@ import EditTicketForm from './EditTicketForm'
 import CommentForm from './CommentForm'
 
 class TicketDetails extends PureComponent {
-  state= {ticket:{}, event:{}, usertickets:[]}
   
   calculateRisk() {
     const {comments, ticket, usertickets, tickets} = this.props
@@ -33,22 +32,21 @@ class TicketDetails extends PureComponent {
     else risk += 13
     console.log("officetimecheck"+ risk)
     if(comments && comments.length >3) risk +=6
-    console.log("commentslength"+ risk)
+    comments && console.log("commentslength"+ comments.length)
     return risk
   }
  
   componentDidMount() {
     const {users, ticket, event, getUsers, getTicket, getTicketComments} = this.props
     getTicket(this.props.match.params.id)
-    getTicketComments(this.props.match.params.id)
+    // getTicketComments(this.props.match.params.id)
     if (users === null) getUsers()
   }
   componentDidUpdate(prevProps) {
     const {ticket, tickets, event, getEvent, getEventTickets,getUserTickets, usertickets} = this.props
-    ticket && !event && getEvent(ticket.eventid)
-    // ticket && prevProps.ticket && ticket.eventid !== prevProps.ticket.eventid && getEvent(ticket.eventid)
-    ticket && !tickets && getEventTickets(ticket.eventid)
-    ticket && !usertickets && getUserTickets(Number(ticket.userid))
+    ticket && ticket !== prevProps.ticket && !event && getEvent(ticket.eventid)
+    ticket && ticket !== prevProps.ticket && !tickets && getEventTickets(ticket.eventid)
+    ticket && ticket !== prevProps.ticket && !usertickets && getUserTickets(Number(ticket.userid))
   }
   
   render() {
