@@ -1,6 +1,6 @@
 import { 
   JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, 
-  Body, Patch, Put, Delete 
+  Body, Patch, Delete 
 } from 'routing-controllers'
 import {Event} from '../events/entities'
 

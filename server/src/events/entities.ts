@@ -1,5 +1,6 @@
-import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, Index, OneToMany, ManyToOne } from 'typeorm'
+import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, } from 'typeorm'
 import User from '../users/entity'
+// import Ticket from '../tickets/entities'
 
 
 @Entity()
@@ -22,6 +23,9 @@ export class Event extends BaseEntity {
 
     @Column({nullable:true})
     photo?: string
+
+    // @OneToMany(type => Ticket, ticket =>ticket.eventid)
+    // tickets: Ticket[]
 
 }
 

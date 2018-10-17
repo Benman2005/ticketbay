@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom'
 import './games/GamesList.css'
 import EditTicketForm from './EditTicketForm'
 import CommentForm from './CommentForm'
+import Risk from './Risk'
 
 class TicketDetails extends PureComponent {
   
@@ -25,8 +26,8 @@ class TicketDetails extends PureComponent {
     console.log("userticketslength"+ risk)
     if(ticket.price < avgprice ) risk += (100 - ticket.price/avgprice*100)
     if(ticket.price > avgprice) risk -= (Math.min(ticket.price/avgprice*100-100, 15))
-    console.log("avgpricecheck"+ risk)
-    time = new Date(ticket.created).getHours()
+    console.log("avgpricecheck"+ avgprice +'   '+ risk)
+    time = new Date(ticket.created).getHours()  
     console.log(time)
     if (time >= 9 && time <=17) risk -= 13
     else risk += 13
@@ -37,14 +38,14 @@ class TicketDetails extends PureComponent {
   }
  
   componentDidMount() {
-    const {users, ticket, event, getUsers, getTicket, getTicketComments} = this.props
+    const {users, ticket, event, getEvent, getUsers, getTicket, getTicketComments} = this.props
     getTicket(this.props.match.params.id)
-    // getTicketComments(this.props.match.params.id)
+    ticket && !event && getEvent(ticket.eventid)
     if (users === null) getUsers()
+    getTicketComments(this.props.match.params.id)
   }
   componentDidUpdate(prevProps) {
     const {ticket, tickets, event, getEvent, getEventTickets,getUserTickets, usertickets} = this.props
-    ticket && ticket !== prevProps.ticket && !event && getEvent(ticket.eventid)
     ticket && ticket !== prevProps.ticket && !tickets && getEventTickets(ticket.eventid)
     ticket && ticket !== prevProps.ticket && !usertickets && getUserTickets(Number(ticket.userid))
   }
@@ -81,6 +82,9 @@ class TicketDetails extends PureComponent {
         <div>
           {<h1>Ticket from &nbsp; 
           {users && users[id].firstName.slice(0, users[id].firstName.indexOf('@')).toUpperCase()}</h1>}
+          <Risk ticket={ticket}/>
+          {/* <Risk ticket={ticket} ticketid={ticket.id} ticketuserid={ticket.userid} ticketeventid={ticket.eventid} ticketcomments={ticket.comments}/> */}
+
           We calculated that the risk of this ticket being a fraud is {Math.floor(Math.max(Math.min(this.calculateRisk(), 98), 2))}%
           <img className="ticketphoto" src={ticket.photo} style={{width: '100%'}}></img> 
           {event ? <h1>{event.eventname}</h1> : ""}
@@ -104,8 +108,6 @@ const mapStateToProps = (state, props) => ({
   usertickets: state.usertickets,
   comments: state.comments,
   user: state.user,
-  // risk: this.calculateRisk() 
-
 })
 const mapDispatchToProps = {
   getEvents, getEvent, getUsers, getUser, getEventTickets, getTicket,getEventTickets, getUserTickets, getTicketComments

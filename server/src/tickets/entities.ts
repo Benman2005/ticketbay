@@ -1,4 +1,4 @@
-import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, Index, OneToMany, ManyToOne } from 'typeorm'
+import { BaseEntity, PrimaryGeneratedColumn, Column, Entity } from 'typeorm'
 import User from '../users/entity'
 
 @Entity()
@@ -24,6 +24,8 @@ export default class Ticket extends BaseEntity {
 
     @Column()
     created?: Date
+    
+    // @ManyToOne(type=> Event, event => event.tickets)
 }
 
 

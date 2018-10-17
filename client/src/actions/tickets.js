@@ -47,8 +47,8 @@ export const getUserTickets = (id) => (dispatch) => {
     request
         .get(`${baseUrl}/users/${id}/tickets`)
         .then(result =>dispatch(updateUserTickets(result.body)))
-        .then(result => console.log(result))
-        // .catch(err => console.error(err))
+        .catch(err => console.error(err))
+        // .then(result => console.log(result))
 }
 
 export const createTicket = (eventid, price, description, userId, photo, created) => (dispatch, getState) => {

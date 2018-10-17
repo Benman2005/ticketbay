@@ -6,7 +6,7 @@ import Card, { CardContent } from 'material-ui/Card'
 import {getEventTickets} from '../actions/tickets'
 import { Link } from 'react-router-dom'
 import './Tickets.css'
-
+import Risk from './Risk'
 
 class Tickets extends PureComponent {
 
@@ -25,11 +25,14 @@ class Tickets extends PureComponent {
     const {users} = this.props
     if(users === null)return 'loading users'
     return(
-      <Link to= {`/tickets/${ticket.id}`}>
+      <Link key={ticket.id} to= {`/tickets/${ticket.id}`}>
       <Card key={ticket.id} className="ticketcard">
-        <CardContent className="ticketss">
+        <CardContent key={ticket.id}className="ticketss">
         <img src={ticket.photo}></img>
         Price: €{ticket.price}<br />
+        {/* <Risk ticket={ticket} ticketid={ticket.id} ticketuserid={ticket.userid} ticketeventid={ticket.eventid} ticketcomments={ticket.comments}/> */}
+         {/* <Risk ticket={ticket} /> */}
+
         Seller: {users && users[id].firstName.slice(0, users[id].firstName.indexOf('@')).toLowerCase()}
         </CardContent> 
       </Card>
